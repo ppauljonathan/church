@@ -1,0 +1,32 @@
+<%-include('includes/head',{title:title})%>
+<div class="container" style="border: 2px solid blue;border-radius: 2rem;position:absolute;top: 50%;left: 50%;transform: translate(-50%,-50%);padding: 2rem;">
+    <form action="/upload" method="post">
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label">Speaker</label>
+          <input type="text" class="form-control" id="exampleInputEmail1" name="speaker">
+  
+        </div>
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label">Title</label>
+          <input type="text" class="form-control" id="exampleInputEmail1"  name="title">
+  
+  
+        </div>
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label">Date</label>
+          <input type="date" class="form-control" id="exampleInputEmail1" name="date">
+  
+        </div>
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label">Category</label>
+          <input type="text" class="form-control" id="exampleInputEmail1" name="category">
+  
+        </div>
+        <div class="mb-3">
+          <label for="exampleInputPassword1" class="form-label">Password</label>
+          <input type="password" class="form-control" id="exampleInputPassword1" name="password">
+        </div>
+        <input type="submit" value="submit">
+      </form>
+      </div>
+<%-include('includes/tail')%>

@@ -1,9 +1,21 @@
 const Video=require('../models/video');
 
 module.exports.getMain=async(req,res,next)=>{
-    const videos=await Video.find({})
-    console.log(videos);
-    res.render('main');
+    res.render('main',{
+        title:'Sermons'
+    });
 }
+
 module.exports.getSermon=(req,res,next)=>{
+    
+}
+
+module.exports.getUpload=(req,res,next)=>{
+    res.render('upload',{
+        title:'Upload Sermon'
+    })
+}
+
+module.exports.postUpload=(req,res,next)=>{
+    console.log(req.body);
 }
