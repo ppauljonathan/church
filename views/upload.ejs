@@ -1,4 +1,7 @@
 <%-include('includes/head',{title:title})%>
+  <%if(errors.length>0){%>
+    <div class="error"><%=errors[0]%></div>
+  <%}%>
   <form action="/upload" method="post" class="centered upload-form">
     <div class="form-control">
       <label for="title">Title</label><br>
