@@ -22,7 +22,8 @@ app.use((req,res,next)=>{
 })
 
 app.use((err,req,res,next)=>{
-    res.status(500).send("there was an error");
+    console.log(err);
+    res.status(500).send("there was an error\n",err);
 })
 
 mongoose.connect(MONGO_URI)

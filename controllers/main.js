@@ -7,7 +7,9 @@ module.exports.getMain=async(req,res,next)=>{
 }
 
 module.exports.getSermon=(req,res,next)=>{
-    
+    res.render('video',{
+        title:'Sermon'
+    })
 }
 
 module.exports.getUpload=(req,res,next)=>{
@@ -18,4 +20,5 @@ module.exports.getUpload=(req,res,next)=>{
 
 module.exports.postUpload=(req,res,next)=>{
     console.log(req.body);
+    res.redirect('/upload');
 }

@@ -1,32 +1,32 @@
 <%-include('includes/head',{title:title})%>
-<div class="container" style="border: 2px solid blue;border-radius: 2rem;position:absolute;top: 50%;left: 50%;transform: translate(-50%,-50%);padding: 2rem;">
-    <form action="/upload" method="post">
-        <div class="mb-3">
-          <label for="exampleInputEmail1" class="form-label">Speaker</label>
-          <input type="text" class="form-control" id="exampleInputEmail1" name="speaker">
-  
-        </div>
-        <div class="mb-3">
-          <label for="exampleInputEmail1" class="form-label">Title</label>
-          <input type="text" class="form-control" id="exampleInputEmail1"  name="title">
-  
-  
-        </div>
-        <div class="mb-3">
-          <label for="exampleInputEmail1" class="form-label">Date</label>
-          <input type="date" class="form-control" id="exampleInputEmail1" name="date">
-  
-        </div>
-        <div class="mb-3">
-          <label for="exampleInputEmail1" class="form-label">Category</label>
-          <input type="text" class="form-control" id="exampleInputEmail1" name="category">
-  
-        </div>
-        <div class="mb-3">
-          <label for="exampleInputPassword1" class="form-label">Password</label>
-          <input type="password" class="form-control" id="exampleInputPassword1" name="password">
-        </div>
-        <input type="submit" value="submit">
-      </form>
-      </div>
+  <form action="/upload" method="post" class="centered upload-form">
+    <div class="form-control">
+      <label for="title">Title</label><br>
+      <input type="text" name="title" id="title" class="normal-input">
+    </div><br>
+    <div class="form-control">
+      <label for="category">Category</label><br>
+      <input type="text" name="category" id="category" class="normal-input">
+    </div><br>
+    <div class="form-control">
+      <label for="speaker">Speaker(s)</label><br>
+      <input type="text" name="speaker" id="speaker" class="normal-input">
+    </div><br>
+    <div class="form-control">
+      <label for="link">Link</label><br>
+      <input type="text" name="link" id="link" class="normal-input">
+    </div><br>
+    <div class="form-control">
+      <label for="date">Date</label><br>
+      <input type="date" name="date" id="date" class="normal-input">
+    </div><br>
+    <div class="form-control">
+      <label for="password">Password</label><br>
+      <input type="password" name="password" id="password" class="normal-input">
+    </div><br>
+    <div class="form-control">
+      <input type="submit" value="Submit" class="upload-submit">
+      <input type="reset" value="Reset"  class="upload-reset">
+    </div>
+  </form>
 <%-include('includes/tail')%>
