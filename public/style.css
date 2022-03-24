@@ -14,6 +14,23 @@
     top: 0%;left: 0%;
     width: 100vw;height: 20vh;
     background-color: rgb(168, 8, 8);
+    display: flex;
+}
+
+.logo-box{
+    position: absolute;
+    z-index: 20;
+    width: 10vw;
+    top:50%;left: 5%;
+}
+
+.logo{
+    position: relative;
+    height: 10vh;
+}
+
+.heading-box{
+    width: 100vw;
 }
 
 .body-container{

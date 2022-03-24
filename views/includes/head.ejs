@@ -9,10 +9,15 @@
 </head>
 <body>
     <div class="title-bar">
-        <p class="centered heading">Sermons Control Panel</p>
-        <div class="centered navbar">
-            <a href="/" class="nav-el <%if(title=='Sermons'){%>selected<%}else{%><%}%>">Home</a>
-        <a href="/upload" class="nav-el <%if(title=='Upload Sermon'){%>selected<%}else{%><%}%>">Upload</a>
+        <div class="logo-box">
+            <img src="/logo.png" alt="logo" class=" centered logo">
+        </div>
+        <div class="heading-box">
+            <p class="centered heading">Sermons Control Panel</p>
+            <div class="centered navbar">
+                <a href="/" class="nav-el <%if(title=='Sermons'){%>selected<%}else{%><%}%>">Home</a>
+            <a href="/upload" class="nav-el <%if(title=='Upload Sermon'){%>selected<%}else{%><%}%>">Upload</a>
+            </div>
         </div>
     </div>
     <div class="body-container">

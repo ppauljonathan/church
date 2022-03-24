@@ -23,9 +23,15 @@ module.exports.getMain=async(req,res,next)=>{
     });
 }
 
-module.exports.getSermon=(req,res,next)=>{
-    res.render('video',{
-        title:'Sermon'
+module.exports.getSermon=async(req,res,next)=>{
+    const video=await Video.findById(req.params.id)
+    if(!video){
+        res.redirect('/404');
+    }
+    res
+    .render('video',{
+        title:'Sermon',
+        video:video
     })
 }
 
@@ -59,7 +65,7 @@ module.exports.postUpload=async(req,res,next)=>{
             title:req.body.title.trim(),
             category:req.body.category.trim(),
             speaker:req.body.speaker.trim(),
-            link:req.body.link.trim(),
+            link:req.body.link.trim().replace('watch?v=','embed/'),
             date:req.body.date.trim()
         })
     res.redirect('/upload');
