@@ -1,12 +1,13 @@
 require('dotenv').config();
 const Video=require('../models/video');
 
-const VIDEO_PER_PAGE=4;
+const VIDEO_PER_PAGE=3;
 
 module.exports.getMain=async(req,res,next)=>{
     const page=parseInt(req.query.page)||1;
     const videos=await Video
     .find()
+    .sort({_id:-1})
     .skip((page-1)*VIDEO_PER_PAGE)
     .limit(VIDEO_PER_PAGE);
 

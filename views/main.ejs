@@ -3,8 +3,8 @@
         <div class="title-sermon">Sermons</div><br>
         <%for(let video of videos){%>
             <div class="sermon-block">
-                <div class="sermon-title"><%=video.title%></div>
-                <p class="sermon-info">Date: <%=video.date%> | Category: <%=video.category%> | By: <%=video.speaker%></p>
+                <a class="sermon-title" href="/sermon/<%=video._id%>"><%=video.title%></a>
+                <p class="sermon-info">Date: <%=video.date.toISOString().split('T')[0]%> | Category: <%=video.category%> | By: <%=video.speaker%></p>
             </div>
         <%}%>
     </div>

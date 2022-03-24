@@ -12,14 +12,14 @@
 .title-bar{
     position: relative;
     top: 0%;left: 0%;
-    width: 100vw;height: 10vh;
+    width: 100vw;height: 20vh;
     background-color: rgb(168, 8, 8);
 }
 
 .body-container{
     position: relative;
     top: 0%;left: 0%;
-    width: 100vw;height: 90vh;
+    width: 100vw;height: 80vh;
 }
 
 .heading{
@@ -28,6 +28,23 @@
     position: relative;
     width: fit-content;
     height: fit-content;
+}
+
+.navbar{
+    position: relative;
+    width: fit-content;
+    height: fit-content;
+}
+
+.nav-el{
+    color: white;
+    font-size: 3vh;
+    position: relative;
+    padding: 0.5rem;
+    text-decoration: none;
+}
+.selected{
+    color: gold;
 }
 
 .upload-form{
