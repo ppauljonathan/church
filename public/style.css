@@ -83,3 +83,53 @@
     right: 0%;
     z-index: 50;
 }
+
+.sermons-block{
+    width: fit-content;
+    height: fit-content;
+    padding: 2vmin;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.title-sermon{
+    font-size: 4vh;
+    font-weight: 1000;
+    color: rgb(207, 10, 10);
+}
+
+.sermon-block{
+    padding: 2rem;
+}
+
+.sermon-title{
+    font-size: 3vh;
+    color: rgb(168, 8, 8);
+}
+
+.sermon-info{
+    font-size: 2.7vh;
+}
+
+.pagination-block{
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    width: fit-content;
+    height: fit-content;
+}
+
+.pagination-block>a{
+    padding: 0.5rem;
+    border: 1px solid rgb(168, 8, 8);
+    border-radius: 0.5rem;
+    background-color: rgb(168, 8, 8);
+    color: white;
+    text-decoration: unset;
+    font-size: 3vh;
+}
+
+.pagination-block>a:hover{
+    background-color: rgb(59, 0, 0);
+}

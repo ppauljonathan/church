@@ -1,9 +1,24 @@
 require('dotenv').config();
 const Video=require('../models/video');
 
+const VIDEO_PER_PAGE=4;
+
 module.exports.getMain=async(req,res,next)=>{
+    const page=parseInt(req.query.page)||1;
+    const videos=await Video
+    .find()
+    .skip((page-1)*VIDEO_PER_PAGE)
+    .limit(VIDEO_PER_PAGE);
+
+    const totalPages=Math.ceil((await Video.countDocuments()/VIDEO_PER_PAGE))
+
     res.render('main',{
-        title:'Sermons'
+        title:'Sermons',
+        videos:videos,
+        prev:page-1,
+        curr:page,
+        next:page+1,
+        last:totalPages
     });
 }
 
