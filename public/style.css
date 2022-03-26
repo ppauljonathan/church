@@ -167,3 +167,30 @@
 .pagination-block>a:hover{
     background-color: rgb(59, 0, 0);
 }
+
+.sermonv-title{
+    width: fit-content;
+    height: fit-content;
+    margin: auto;
+    color: rgb(168, 8, 8);
+}
+
+.sermonvtitle{
+    width: 100vw;
+    height: fit-content;
+    position: relative;
+    top: 0%;
+    left: 0%;
+}
+
+.sermon-vinfo{
+    font-size: 2.7vh;
+    width: fit-content;
+    height: fit-content;
+    margin: auto;
+}
+
+.sermonsvid{
+    display: flex;
+    justify-content: center;
+}
