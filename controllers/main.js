@@ -51,16 +51,23 @@ module.exports.postUpload=async(req,res,next)=>{
         req.body.date.trim().length==0||
         req.body.password.trim().length==0
     ){
-        res.render('upload',{
+        return res.render('upload',{
             title:'Upload Sermon',
             errors:["Fields Must Not Be Empty"]
         })
     }else if(req.body.password.trim()!=process.env.PASSWORD){
-        res.render('upload',{
+        return res.render('upload',{
             title:'Upload Sermon',
             errors:["Password Incorrect"]
         })
     }else{
+        const alreadyVideo=await Video.find({link:req.body.link.trim().replace('watch?v=','embed/')})
+        if(alreadyVideo!=null){
+            return res.render('upload',{
+                title:'Upload Sermon',
+                errors:["Video Already Exists"]
+            })
+        }
         await Video.create({
             title:req.body.title.trim(),
             category:req.body.category.trim(),
@@ -68,6 +75,6 @@ module.exports.postUpload=async(req,res,next)=>{
             link:req.body.link.trim().replace('watch?v=','embed/'),
             date:req.body.date.trim()
         })
-    res.redirect('/upload');
+        res.redirect('/upload');
     }
 }
