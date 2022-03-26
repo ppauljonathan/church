@@ -61,8 +61,8 @@ module.exports.postUpload=async(req,res,next)=>{
             errors:["Password Incorrect"]
         })
     }else{
-        const alreadyVideo=await Video.find({link:req.body.link.trim().replace('watch?v=','embed/')})||null
-        if(alreadyVideo!=null){
+        const alreadyVideo=await Video.find({link:req.body.link.trim().replace('watch?v=','embed/')})
+        if(alreadyVideo.length!=0){
             return res.render('upload',{
                 title:'Upload Sermon',
                 errors:["Video Already Exists"]
