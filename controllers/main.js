@@ -61,7 +61,7 @@ module.exports.postUpload=async(req,res,next)=>{
             errors:["Password Incorrect"]
         })
     }else{
-        const alreadyVideo=await Video.find({link:req.body.link.trim().replace('watch?v=','embed/')})
+        const alreadyVideo=await Video.find({link:req.body.link.trim().replace('watch?v=','embed/')})||null
         if(alreadyVideo!=null){
             return res.render('upload',{
                 title:'Upload Sermon',
