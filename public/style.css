@@ -184,6 +184,7 @@
 }
 
 .sermon-vinfo{
+    position: relative;
     font-size: 2.7vh;
     width: fit-content;
     height: fit-content;
@@ -193,4 +194,32 @@
 .sermonsvid{
     display: flex;
     justify-content: center;
+}
+
+.edel-wrap{
+    position: relative;
+    width: 100vw;
+    display: flex;
+    height: fit-content;
+}
+
+.edel{
+    width: fit-content;
+    height: fit-content;
+    margin: auto;
+}
+
+.edit-delete{
+    margin: 0.5rem;
+    width: fit-content;
+    height: fit-content;
+    text-decoration: none;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    color: white;
+    background-color: rgb(168, 8, 8);
+}
+
+.edit-delete:hover{
+    background-color: rgb(59, 0, 0);
 }

@@ -38,7 +38,8 @@ module.exports.getSermon=async(req,res,next)=>{
 module.exports.getUpload=(req,res,next)=>{
     res.render('upload',{
         title:'Upload Sermon',
-        errors:[]
+        errors:[],
+		video:{}
     })
 }
 
@@ -77,4 +78,77 @@ module.exports.postUpload=async(req,res,next)=>{
         })
         res.redirect('/upload');
     }
+}
+
+module.exports.getUpdate=async(req,res,next)=>{
+	const video=await Video.findById(req.params.id);
+	if(!video){res.redirect('/404');}
+	res.render('upload',{
+		title:'Edit Sermon',
+		errors:[],
+		video:video
+	})
+}
+
+module.exports.postUpdate=async(req,res,next)=>{
+	const video=await Video.findById(req.params.id);
+	if(!video){res.redirect('/404');}
+	if(
+        req.body.title.trim().length==0||
+        req.body.link.trim().length==0||
+        req.body.category.trim().length==0||
+        req.body.speaker.trim().length==0||
+        req.body.date.trim().length==0||
+        req.body.password.trim().length==0
+    ){
+        return res.render('upload',{
+            title:'Edit Sermon',
+            errors:["Fields Must Not Be Empty"],
+			video:video
+        })
+    }else if(req.body.password.trim()!=process.env.PASSWORD){
+        return res.render('upload',{
+            title:'Edit Sermon',
+            errors:["Password Incorrect"],
+			video:video
+        })
+    }else{
+		const alreadyVideo=await Video.find({link:req.body.link.trim().replace('watch?v=','embed/')})
+        if(alreadyVideo.length!=0 && alreadyVideo[0]._id!=req.params.id){
+            return res.render('upload',{
+                title:'Upload Sermon',
+                errors:["Video Already Exists"]
+            })
+        }
+		await alreadyVideo[0].updateOne({
+            title:req.body.title.trim(),
+            category:req.body.category.trim(),
+            speaker:req.body.speaker.trim(),
+            link:req.body.link.trim().replace('watch?v=','embed/'),
+            date:req.body.date.trim()
+		})
+		res.redirect(`/sermon/${alreadyVideo[0]._id}`)
+	}
+}
+
+module.exports.getDelete=async(req,res,next)=>{
+	const video=await Video.findById(req.params.id);
+	if(!video){res.redirect('/404');}
+	res.render('upload',{
+		title:'Delete Sermon',
+		errors:[],
+		video:video
+	})
+}
+
+module.exports.postDelete=async(req,res,next)=>{
+	if(req.body.password.trim()!=process.env.PASSWORD){
+        return res.render('upload',{
+            title:'Delete Sermon',
+            errors:["Password Incorrect"],
+			video:video
+        })
+    }
+	await Video.deleteOne({_id:req.params.id});
+	res.redirect('/');
 }

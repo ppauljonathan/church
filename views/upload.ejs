@@ -2,34 +2,79 @@
   <%if(errors.length>0){%>
     <div class="error"><%=errors[0]%></div>
   <%}%>
-  <form action="/upload" method="post" class="centered upload-form">
-    <div class="form-control">
-      <label for="title">Title</label><br>
-      <input type="text" name="title" id="title" class="normal-input">
-    </div><br>
-    <div class="form-control">
-      <label for="category">Category</label><br>
-      <input type="text" name="category" id="category" class="normal-input">
-    </div><br>
-    <div class="form-control">
-      <label for="speaker">Speaker(s)</label><br>
-      <input type="text" name="speaker" id="speaker" class="normal-input">
-    </div><br>
-    <div class="form-control">
-      <label for="link">Link</label><br>
-      <input type="text" name="link" id="link" class="normal-input">
-    </div><br>
-    <div class="form-control">
-      <label for="date">Date</label><br>
-      <input type="date" name="date" id="date" class="normal-input">
-    </div><br>
-    <div class="form-control">
-      <label for="password">Password</label><br>
-      <input type="password" name="password" id="password" class="normal-input">
-    </div><br>
-    <div class="form-control">
-      <input type="submit" value="Submit" class="upload-submit">
-      <input type="reset" value="Reset"  class="upload-reset">
-    </div>
-  </form>
+  <%if(title=='Upload Sermon'){%>
+	  <form action="/upload" method="post" class="centered upload-form">
+	    <div class="form-control">
+	      <label for="title">Title</label><br>
+	      <input type="text" name="title" id="title" class="normal-input">
+	    </div><br>
+	    <div class="form-control">
+	      <label for="category">Category</label><br>
+	      <input type="text" name="category" id="category" class="normal-input">
+	    </div><br>
+	    <div class="form-control">
+	      <label for="speaker">Speaker(s)</label><br>
+	      <input type="text" name="speaker" id="speaker" class="normal-input">
+	    </div><br>
+	    <div class="form-control">
+	      <label for="link">Link</label><br>
+    	  <input type="text" name="link" id="link" class="normal-input">
+	    </div><br>
+	    <div class="form-control">
+	      <label for="date">Date</label><br>
+	      <input type="date" name="date" id="date" class="normal-input">
+	    </div><br>
+	    <div class="form-control">
+	      <label for="password">Password</label><br>
+	      <input type="password" name="password" id="password" class="normal-input">
+	    </div><br>
+	    <div class="form-control">
+	      <input type="submit" value="Submit" class="upload-submit">
+	      <input type="reset" value="Reset"  class="upload-reset">
+	    </div>
+	  </form>
+	<%}if(title=='Edit Sermon'){%>
+	  <form action="/edit/<%=video._id%>" method="post" class="centered upload-form">
+	    <div class="form-control">
+	      <label for="title">Title</label><br>
+	      <input type="text" name="title" id="title" class="normal-input" value="<%=video.title%>">
+	    </div><br>
+	    <div class="form-control">
+	      <label for="category">Category</label><br>
+	      <input type="text" name="category" id="category" class="normal-input" value="<%=video.category%>">
+	    </div><br>
+	    <div class="form-control">
+	      <label for="speaker">Speaker(s)</label><br>
+	      <input type="text" name="speaker" id="speaker" class="normal-input" value="<%=video.speaker%>">
+	    </div><br>
+	    <div class="form-control">
+	      <label for="link">Link</label><br>
+    	  <input type="text" name="link" id="link" class="normal-input" value="<%=video.link%>">
+	    </div><br>
+	    <div class="form-control">
+	      <label for="date">Date</label><br>
+	      <input type="date" name="date" id="date" class="normal-input" value="<%=video.date%>">
+	    </div><br>
+	    <div class="form-control">
+	      <label for="password">Password</label><br>
+	      <input type="password" name="password" id="password" class="normal-input">
+	    </div><br>
+	    <div class="form-control">
+	      <input type="submit" value="Edit" class="upload-submit">
+	      <input type="reset" value="Reset"  class="upload-reset">
+	    </div>
+	  </form>
+	<%}if(title=='Delete Sermon'){%>
+	  <center><h2>To Delete Sermon Enter your password</h2></center>
+	  <form action="/delete/<%=video._id%>" method="post" class="centered upload-form">
+		<div class="form-control">
+	      <label for="password">Password</label><br>
+	      <input type="password" name="password" id="password" class="normal-input">
+	    </div><br>
+	    <div class="form-control">
+	      <input type="submit" value="Delete" class="upload-submit">
+	      <input type="reset" value="Reset"  class="upload-reset">
+	    </div>
+	  </form>
+	<%}%>
 <%-include('includes/tail')%>
