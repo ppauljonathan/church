@@ -14,4 +14,7 @@ router.post('/edit/:id',controllers.postUpdate);
 
 router.get('/delete/:id',controllers.getDelete);
 router.post('/delete/:id',controllers.postDelete);
+
+router.get('/api/main',controllers.getApiMain)
+router.get('/api/sermon/:id',controllers.getApiSermon)
 module.exports=router;

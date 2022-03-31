@@ -9,6 +9,11 @@ const MONGO_URI=process.env.MONGO_URI;
 
 const app=express();
 
+app.use((req,res,next)=>{
+    res.setHeader('Access-Control-Allow-Origin','*');
+    next();
+})
+
 app.set('view engine','ejs');
 app.set('views','views');
 app.use(express.static('public'));

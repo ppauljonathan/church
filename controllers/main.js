@@ -152,3 +152,42 @@ module.exports.postDelete=async(req,res,next)=>{
 	await Video.deleteOne({_id:req.params.id});
 	res.redirect('/');
 }
+
+module.exports.getApiMain=async(req,res,next)=>{
+    res.setHeader('Content-Type','application/json');
+
+    const perPage=req.query.perpage||VIDEO_PER_PAGE;
+    const pageNo=req.query.page||1;
+    const videos=await Video
+    .find()
+    .sort({_id:-1})
+    .skip((pageNo-1)*perPage)
+    .limit(perPage)
+
+    res.status(200)
+    .json({
+        videos:videos
+    })
+}
+
+module.exports.getApiSermon=async(req,res,next)=>{
+    try {
+        res.setHeader('Content-Type','application/json')
+        const video=await Video.findById(req.params.id);
+        if(!video){
+            res.status(404)
+            .json({
+                msg:'Video Not Found'
+            })
+        }
+        res.status(200)
+        .json({
+            video:video
+        })   
+    } catch (error) {
+        res.status(500)
+        .json({
+            msg:'An Error Occured'
+        })
+    }
+}
