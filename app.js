@@ -3,6 +3,7 @@ const express=require('express');
 const mongoose=require('mongoose');
 
 const routes=require('./routes/main');
+const conn=require('./db/db');
 
 const PORT=process.env.PORT||8080;
 const MONGO_URI=process.env.MONGO_URI;
@@ -31,11 +32,12 @@ app.use((err,req,res,next)=>{
     res.status(500).send("there was an error\n",err);
 })
 
-mongoose.connect(MONGO_URI)
-.then(done=>{
+
+// conn
+// .then(done=>{
     app.listen(PORT,()=>{console.log(`http://localhost:${PORT}`);})
-})
-.catch(err=>{
-    console.log('ERROR CONNECTING TO DB\n',err);
-})
+// })
+// .catch(err=>{
+//     console.log('ERROR CONNECTING TO DB\n',err);
+// })
 

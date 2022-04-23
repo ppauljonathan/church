@@ -1,25 +1,22 @@
 require('dotenv').config();
 const Video=require('../models/video');
+const dbCon=require('../db/db');
 
 const VIDEO_PER_PAGE=3;
 
 module.exports.getMain=async(req,res,next)=>{
+    const conn=await dbCon;
     const page=parseInt(req.query.page)||1;
-    const videos=await Video
-    .find()
-    .sort({_id:-1})
-    .skip((page-1)*VIDEO_PER_PAGE)
-    .limit(VIDEO_PER_PAGE);
+    const totalPages=await conn.execute('SELECT COUNT(*) FROM cfc');
 
-    const totalPages=Math.ceil((await Video.countDocuments()/VIDEO_PER_PAGE))
-
+    const videos=await conn.execute(`SELECT * FROM cfc LIMIT ${VIDEO_PER_PAGE} OFFSET ${(page-1)*VIDEO_PER_PAGE}`);
     res.render('main',{
         title:'Sermons',
-        videos:videos,
+        videos:videos[0],
         prev:page-1,
         curr:page,
         next:page+1,
-        last:totalPages
+        last:Math.ceil(totalPages[0][0]['COUNT(*)']/VIDEO_PER_PAGE)
     });
 }
 
