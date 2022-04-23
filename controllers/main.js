@@ -31,6 +31,12 @@ module.exports.getMain=async(req,res,next)=>{
 }
 
 module.exports.getSermon=async(req,res,next)=>{
+    const conn=await dbCon;
+    const vid=await conn.execute(`SELECT * FROM cfc WHERE id=${req.params.id}`)
+    res.render('video',{
+        video:vid[0][0],
+        title:'Sermon'
+    })
 }
 
 module.exports.getUpload=(req,res,next)=>{
@@ -67,97 +73,89 @@ module.exports.postUpload=async(req,res,next)=>{
         })
     }else{
         conn=await dbCon;
-        // const alreadyVideo=await Video.find({link:req.body.link.trim().replace('watch?v=','embed/')})
-        // if(alreadyVideo.length!=0){
-        //     return res.render('upload',{
-        //         title:'Upload Sermon',
-        //         errors:["Video Already Exists"]
-        //     })
-        // }
-        // await Video.create({
-        //     title:req.body.title.trim(),
-        //     category:req.body.category.trim(),
-        //     speaker:req.body.speaker.trim(),
-        //     link:req.body.link.trim().replace('watch?v=','embed/'),
-        //     date:req.body.date.trim()
-        // })
         const [results,fields]=await conn.execute(
             `INSERT INTO cfc(title,category,speaker,link,date)
             values(
                 "${vidTitle}",
                 "${vidCat}",
                 "${vidSpeaker}",
-                "${vidLink}",
+                "https://youtube.com/embed/${vidLink}",
                 "${vidDate}"
             )`
         )
-        console.log(results);
         res.redirect('/upload');
     }
 }
 
 module.exports.getUpdate=async(req,res,next)=>{
-	const video=await Video.findById(req.params.id);
-	if(!video){res.redirect('/404');}
+	const conn=await dbCon;
+    const vid=await conn.execute(`SELECT * FROM cfc WHERE id=${req.params.id}`)
+	if(vid[0].length==0){res.redirect('/404');}
 	res.render('upload',{
 		title:'Edit Sermon',
 		errors:[],
-		video:video
+		video:vid[0][0]
 	})
 }
 
 module.exports.postUpdate=async(req,res,next)=>{
-	const video=await Video.findById(req.params.id);
-	if(!video){res.redirect('/404');}
-	if(
-        req.body.title.trim().length==0||
-        req.body.link.trim().length==0||
-        req.body.category.trim().length==0||
-        req.body.speaker.trim().length==0||
-        req.body.date.trim().length==0||
-        req.body.password.trim().length==0
+    const conn=await dbCon;
+    const vid=await conn.execute(`SELECT * FROM cfc WHERE id=${req.params.id}`)
+	if(vid[0].length==0){res.redirect('/404');}
+
+	const vidTitle=req.body.title.trim();
+    const vidLink=req.body.link.trim();
+    const vidCat=req.body.category.trim();
+    const vidSpeaker=req.body.speaker.trim();
+    const vidDate=req.body.date.trim();
+    const password=req.body.password.trim();
+    if(
+        vidTitle.length==0||
+        vidLink.length==0||
+        vidCat.length==0||
+        vidSpeaker.length==0||
+        vidDate.length==0||
+        password.length==0
     ){
         return res.render('upload',{
             title:'Edit Sermon',
             errors:["Fields Must Not Be Empty"],
-			video:video
+			video:vid[0][0]
         })
     }else if(req.body.password.trim()!=process.env.PASSWORD){
         return res.render('upload',{
             title:'Edit Sermon',
             errors:["Password Incorrect"],
-			video:video
+			video:vid[0][0]
         })
     }else{
-		const alreadyVideo=await Video.find({link:req.body.link.trim().replace('watch?v=','embed/')})
-        if(alreadyVideo.length!=0 && alreadyVideo[0]._id!=req.params.id){
-            return res.render('upload',{
-                title:'Upload Sermon',
-                errors:["Video Already Exists"]
-            })
-        }
-		await alreadyVideo[0].updateOne({
-            title:req.body.title.trim(),
-            category:req.body.category.trim(),
-            speaker:req.body.speaker.trim(),
-            link:req.body.link.trim().replace('watch?v=','embed/'),
-            date:req.body.date.trim()
-		})
-		res.redirect(`/sermon/${alreadyVideo[0]._id}`)
+        const result=await conn.execute(
+            `UPDATE cfc
+            SET
+            title='${vidTitle}',
+            category='${vidCat}',
+            speaker='${vidSpeaker}',
+            link='https://youtube.com/embed/${vidLink}',
+            date=${vidDate}
+            WHERE id=${req.params.id}`
+        )
+        res.redirect(`/sermon/${req.params.id}`)
 	}
 }
 
 module.exports.getDelete=async(req,res,next)=>{
-	const video=await Video.findById(req.params.id);
-	if(!video){res.redirect('/404');}
+    const conn=await dbCon;
+    const vid=await conn.execute(`SELECT * FROM cfc WHERE id=${req.params.id}`)
+	if(vid[0].length==0){res.redirect('/404');}
 	res.render('upload',{
 		title:'Delete Sermon',
 		errors:[],
-		video:video
+		video:vid[0][0]
 	})
 }
 
 module.exports.postDelete=async(req,res,next)=>{
+    const conn=await dbCon;
 	if(req.body.password.trim()!=process.env.PASSWORD){
         return res.render('upload',{
             title:'Delete Sermon',
@@ -165,40 +163,55 @@ module.exports.postDelete=async(req,res,next)=>{
 			video:video
         })
     }
-	await Video.deleteOne({_id:req.params.id});
+    
+    const result=await conn.execute(`DELETE FROM cfc WHERE id=${req.params.id}`);
+
 	res.redirect('/');
 }
 
 module.exports.getApiMain=async(req,res,next)=>{
-    res.setHeader('Content-Type','application/json');
+    try {
+        res.setHeader('Content-Type','application/json');
 
-    const perPage=req.query.perpage||VIDEO_PER_PAGE;
-    const pageNo=req.query.page||1;
-    const videos=await Video
-    .find()
-    .sort({_id:-1})
-    .skip((pageNo-1)*perPage)
-    .limit(perPage)
+        const perPage=req.query.perpage||VIDEO_PER_PAGE;
+        const conn=await dbCon;
+        const page=parseInt(req.query.page)||1;
+        const totalPages=await conn.execute(
+            `SELECT COUNT(*) 
+            FROM cfc`
+        );
 
-    res.status(200)
-    .json({
-        videos:videos
-    })
+        const videos=await conn.execute(
+            `SELECT * 
+            FROM cfc 
+            ORDER BY id desc
+            LIMIT ${perPage} 
+            OFFSET ${(page-1)*perPage}`
+        );
+
+        res.status(200)
+        .json({
+            videos:videos[0]
+        })
+    } catch (error) {
+        res.status(500)
+    }
 }
 
 module.exports.getApiSermon=async(req,res,next)=>{
     try {
         res.setHeader('Content-Type','application/json')
-        const video=await Video.findById(req.params.id);
-        if(!video){
-            res.status(404)
+        const conn=await dbCon;
+        const vid=await conn.execute(`SELECT * FROM cfc WHERE id=${req.params.id}`)
+        if(vid[0].length==0){
+            return res.status(404)
             .json({
                 msg:'Video Not Found'
             })
         }
         res.status(200)
         .json({
-            video:video
+            video:vid[0][0]
         })   
     } catch (error) {
         res.status(500)

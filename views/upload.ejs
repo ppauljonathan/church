@@ -18,7 +18,7 @@
 	    </div><br>
 	    <div class="form-control">
 	      <label for="link">Link</label><br>
-    	  <input type="text" name="link" id="link" class="normal-input">
+    	  <input type="text" name="link" id="link" class="normal-input" placeholder="Please enter the unique id of the video for ex youtube.com/watch?v=5hnmN-In12Y pls enter only 5hnmN-In12Y">
 	    </div><br>
 	    <div class="form-control">
 	      <label for="date">Date</label><br>
@@ -34,7 +34,7 @@
 	    </div>
 	  </form>
 	<%}if(title=='Edit Sermon'){%>
-	  <form action="/edit/<%=video._id%>" method="post" class="centered upload-form">
+	  <form action="/edit/<%=video.id%>" method="post" class="centered upload-form">
 	    <div class="form-control">
 	      <label for="title">Title</label><br>
 	      <input type="text" name="title" id="title" class="normal-input" value="<%=video.title%>">
@@ -66,7 +66,7 @@
 	  </form>
 	<%}if(title=='Delete Sermon'){%>
 	  <center><h2>To Delete Sermon Enter your password</h2></center>
-	  <form action="/delete/<%=video._id%>" method="post" class="centered upload-form">
+	  <form action="/delete/<%=video.id%>" method="post" class="centered upload-form">
 		<div class="form-control">
 	      <label for="password">Password</label><br>
 	      <input type="password" name="password" id="password" class="normal-input">
