@@ -33,11 +33,23 @@ app.use((err,req,res,next)=>{
 })
 
 
-// conn
-// .then(done=>{
+conn
+.execute(
+    `CREATE TABLE IF NOT EXISTS
+    cfc(
+        id int auto_increment primary key,
+        date varchar(255),
+        category varchar(255),
+        speaker varchar(255),
+        title varchar(255),
+        link varchar (255) unique
+    )`
+)
+.then(done=>{
+    done
     app.listen(PORT,()=>{console.log(`http://localhost:${PORT}`);})
-// })
-// .catch(err=>{
-//     console.log('ERROR CONNECTING TO DB\n',err);
-// })
+})
+.catch(err=>{
+    console.log('ERROR CONNECTING TO DB\n',err);
+})
 
