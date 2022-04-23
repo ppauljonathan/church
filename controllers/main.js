@@ -87,7 +87,7 @@ module.exports.postUpload=async(req,res,next)=>{
                     "${vidTitle}",
                     "${vidCat}",
                     "${vidSpeaker}",
-                    "https://youtube.com/embed/${vidLink}",
+                    "https://www.youtube.com/embed/${vidLink}",
                     "${vidDate}"
                 )`
             )
@@ -151,7 +151,7 @@ module.exports.postUpdate=async(req,res,next)=>{
                 title='${vidTitle}',
                 category='${vidCat}',
                 speaker='${vidSpeaker}',
-                link='https://youtube.com/embed/${vidLink}',
+                link='https://www.youtube.com/embed/${vidLink}',
                 date=${vidDate}
                 WHERE id=${req.params.id}`
             )
