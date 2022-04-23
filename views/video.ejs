@@ -1,14 +1,14 @@
 <%-include('includes/head',{title:title})%>
 
 <div class="sermonvtitle"><h1 class="sermonv-title";><%=video.title%></h1></div><br>
-<div class="sermonvtitle"><p class="sermon-vinfo">Date: <%=video.date.toISOString().split('T')[0]%> | Category: <%=video.category%> | By: <%=video.speaker%></p></div>
+<div class="sermonvtitle"><p class="sermon-vinfo">Date: <%=video.date%> | Category: <%=video.category%> | By: <%=video.speaker%></p></div>
 <br><br>
 <div class="sermonsvid"><iframe tyle="display: block; margin: auto " src="<%=video.link%>" width="420" height="315" frameborder="0" allowfullscreen></iframe></div>
 <br><br>
 <div class="edel-wrap">
     <div class="edel">
-        <a class="edit-delete" href="/edit/<%=video._id%>">Edit</a> 
-        <a class="edit-delete" href="/delete/<%=video._id%>">Delete</a> 
+        <a class="edit-delete" href="/edit/<%=video.id%>">Edit</a> 
+        <a class="edit-delete" href="/delete/<%=video.id%>">Delete</a> 
     </div>
 </div>
 <%-include('includes/tail')%>

@@ -7,9 +7,19 @@ const VIDEO_PER_PAGE=3;
 module.exports.getMain=async(req,res,next)=>{
     const conn=await dbCon;
     const page=parseInt(req.query.page)||1;
-    const totalPages=await conn.execute('SELECT COUNT(*) FROM cfc');
+    const totalPages=await conn.execute(
+        `SELECT COUNT(*) 
+        FROM cfc`
+    );
 
-    const videos=await conn.execute(`SELECT * FROM cfc LIMIT ${VIDEO_PER_PAGE} OFFSET ${(page-1)*VIDEO_PER_PAGE}`);
+    const videos=await conn.execute(
+        `SELECT * 
+        FROM cfc 
+        ORDER BY id desc
+        LIMIT ${VIDEO_PER_PAGE} 
+        OFFSET ${(page-1)*VIDEO_PER_PAGE}`
+    );
+
     res.render('main',{
         title:'Sermons',
         videos:videos[0],
@@ -21,15 +31,6 @@ module.exports.getMain=async(req,res,next)=>{
 }
 
 module.exports.getSermon=async(req,res,next)=>{
-    const video=await Video.findById(req.params.id)
-    if(!video){
-        res.redirect('/404');
-    }
-    res
-    .render('video',{
-        title:'Sermon',
-        video:video
-    })
 }
 
 module.exports.getUpload=(req,res,next)=>{
@@ -41,38 +42,56 @@ module.exports.getUpload=(req,res,next)=>{
 }
 
 module.exports.postUpload=async(req,res,next)=>{
+    const vidTitle=req.body.title.trim();
+    const vidLink=req.body.link.trim();
+    const vidCat=req.body.category.trim();
+    const vidSpeaker=req.body.speaker.trim();
+    const vidDate=req.body.date.trim();
+    const password=req.body.password.trim();
     if(
-        req.body.title.trim().length==0||
-        req.body.link.trim().length==0||
-        req.body.category.trim().length==0||
-        req.body.speaker.trim().length==0||
-        req.body.date.trim().length==0||
-        req.body.password.trim().length==0
+        vidTitle.length==0||
+        vidLink.length==0||
+        vidCat.length==0||
+        vidSpeaker.length==0||
+        vidDate.length==0||
+        password.length==0
     ){
         return res.render('upload',{
             title:'Upload Sermon',
             errors:["Fields Must Not Be Empty"]
         })
-    }else if(req.body.password.trim()!=process.env.PASSWORD){
+    }else if(password!=process.env.PASSWORD){
         return res.render('upload',{
             title:'Upload Sermon',
             errors:["Password Incorrect"]
         })
     }else{
-        const alreadyVideo=await Video.find({link:req.body.link.trim().replace('watch?v=','embed/')})
-        if(alreadyVideo.length!=0){
-            return res.render('upload',{
-                title:'Upload Sermon',
-                errors:["Video Already Exists"]
-            })
-        }
-        await Video.create({
-            title:req.body.title.trim(),
-            category:req.body.category.trim(),
-            speaker:req.body.speaker.trim(),
-            link:req.body.link.trim().replace('watch?v=','embed/'),
-            date:req.body.date.trim()
-        })
+        conn=await dbCon;
+        // const alreadyVideo=await Video.find({link:req.body.link.trim().replace('watch?v=','embed/')})
+        // if(alreadyVideo.length!=0){
+        //     return res.render('upload',{
+        //         title:'Upload Sermon',
+        //         errors:["Video Already Exists"]
+        //     })
+        // }
+        // await Video.create({
+        //     title:req.body.title.trim(),
+        //     category:req.body.category.trim(),
+        //     speaker:req.body.speaker.trim(),
+        //     link:req.body.link.trim().replace('watch?v=','embed/'),
+        //     date:req.body.date.trim()
+        // })
+        const [results,fields]=await conn.execute(
+            `INSERT INTO cfc(title,category,speaker,link,date)
+            values(
+                "${vidTitle}",
+                "${vidCat}",
+                "${vidSpeaker}",
+                "${vidLink}",
+                "${vidDate}"
+            )`
+        )
+        console.log(results);
         res.redirect('/upload');
     }
 }
