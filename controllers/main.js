@@ -94,6 +94,12 @@ module.exports.postUpload=async(req,res,next)=>{
             res.redirect('/upload');
         }   
     } catch (error) {
+        if(error.code=='ER_DUP_ENTRY'){
+            return res.render('upload',{
+                title:'Upload Sermon',
+                errors:['Video already exists']
+            })
+        }
         next(error);
     }
 }
@@ -158,6 +164,12 @@ module.exports.postUpdate=async(req,res,next)=>{
             res.redirect(`/sermon/${req.params.id}`)
         }
     } catch (error) {
+        if(error.code=='ER_DUP_ENTRY'){
+            return res.render('upload',{
+                title:'Upload Sermon',
+                errors:['Video already exists']
+            })
+        }
         next(error);
     }
 }
